@@ -7,12 +7,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import cimdata.android.dez2017.masterdetail.R;
+import cimdata.android.dez2017.masterdetail.fragments.DetailFragment;
 
 public class DetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_INT_POSITION = "extra.int.position";
-
-    TextView titleText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +22,14 @@ public class DetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         int position = intent.getIntExtra(EXTRA_INT_POSITION, -1);
 
-        Toast.makeText(this, "POS: " + position, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "POS: " + position, Toast.LENGTH_SHORT).show();
 
-        //titleText = findViewById(R.id.txt_acdetail_title);
+        DetailFragment fragment = DetailFragment.newInstance(position);
 
-        //titleText.setText(position);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.ly_acdetail_container_detail, fragment)
+                .commit();
+
     }
 }
