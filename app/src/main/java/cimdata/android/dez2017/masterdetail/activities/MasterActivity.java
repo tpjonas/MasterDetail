@@ -1,5 +1,6 @@
 package cimdata.android.dez2017.masterdetail.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ViewGroup;
@@ -61,7 +62,7 @@ public class MasterActivity extends AppCompatActivity implements MasterFragment.
 
     private void displayDetailFragment(int pos) {
 
-        DetailFragment fragment = DetailFragment.newInstance("", "");
+        DetailFragment fragment = DetailFragment.newInstance(pos);
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -71,6 +72,14 @@ public class MasterActivity extends AppCompatActivity implements MasterFragment.
     }
 
     private void displayDetailActivity(int pos) {
+
+        Intent intent = new Intent(this, DetailActivity.class);
+
+        intent.putExtra(DetailActivity.EXTRA_INT_POSITION, pos);
+
+        startActivity(intent);
+
+
     }
 
 
