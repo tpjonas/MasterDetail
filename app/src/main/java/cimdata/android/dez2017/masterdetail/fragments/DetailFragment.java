@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import cimdata.android.dez2017.masterdetail.R;
 import cimdata.android.dez2017.masterdetail.db.NotesDataSource;
-import cimdata.android.dez2017.masterdetail.services.DataService;
 
 public class DetailFragment extends Fragment {
 

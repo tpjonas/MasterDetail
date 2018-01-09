@@ -1,17 +1,15 @@
 package cimdata.android.dez2017.masterdetail.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import cimdata.android.dez2017.masterdetail.R;
 import cimdata.android.dez2017.masterdetail.db.NotesDataSource;
 import cimdata.android.dez2017.masterdetail.fragments.DetailFragment;
-import cimdata.android.dez2017.masterdetail.fragments.MasterFragment;
 
 public class DetailActivity extends AppCompatActivity {
 

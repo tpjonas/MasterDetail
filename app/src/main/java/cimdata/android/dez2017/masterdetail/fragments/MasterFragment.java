@@ -6,27 +6,24 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CursorAdapter;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-
-import org.w3c.dom.Text;
 
 import cimdata.android.dez2017.masterdetail.R;
 import cimdata.android.dez2017.masterdetail.activities.MasterActivity;
 import cimdata.android.dez2017.masterdetail.db.NotesContract;
 import cimdata.android.dez2017.masterdetail.db.NotesDataSource;
-import cimdata.android.dez2017.masterdetail.services.DataService;
 
-public class MasterFragment extends Fragment implements View.OnClickListener {
+public class MasterFragment extends Fragment {
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -48,9 +45,6 @@ public class MasterFragment extends Fragment implements View.OnClickListener {
 
     public NotesDataSource dataSource;
 
-    // Für die Callbacks
-    // Schritt 2: Wir legen ein Feld für das Objekt an,
-    // das auf unsere Callbacks hört
     private FragmentListener listener;
     private Cursor cursor;
 
@@ -91,7 +85,7 @@ public class MasterFragment extends Fragment implements View.OnClickListener {
     }
 
     public void toggleSearchBoxVisibility() {
-        int visibility = searchBox.getVisibility() == View.VISIBLE ? View.INVISIBLE : View.VISIBLE;
+        int visibility = searchBox.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE;
         searchBox.setVisibility(visibility);
     }
 
@@ -114,13 +108,37 @@ public class MasterFragment extends Fragment implements View.OnClickListener {
         searchButton = v.findViewById(R.id.id_button_search);
         searchField = v.findViewById(R.id.id_text_search);
 
-        searchButton.setOnClickListener(this);
+        searchField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                String needle = String.valueOf(searchField.getText());
+                changeCursor(dataSource.searchNotes(needle));
+
+            }
+        });
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchField.setText("");
+
+                hideKeyboardFrom(getContext(), v);
+                toggleSearchBoxVisibility();
+            }
+        });
 
         dataSource.open();
         adapter = new SimpleCursorAdapter(
                 getActivity(),
                 android.R.layout.simple_list_item_2,
-                null,
+                null, // null for now, we assign the cursor later
                 new String[] {
                         NotesContract.NotesEntry.COLUMN_TITLE_NAME,
                         NotesContract.NotesEntry.COLUMN_BODY_NAME
@@ -136,20 +154,20 @@ public class MasterFragment extends Fragment implements View.OnClickListener {
 
         dataList.setAdapter(adapter);
 
-        //---
-
-        // Wenn wir ein Item auswählen ...
+        // Callback on click of any item in the list
         dataList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                // ... rufen wir die Callback-Methode auf der Activity auf
                 listener.onFragmentItemClick((int) id);
-
             }
         });
 
         return v;
+    }
+
+    private static void hideKeyboardFrom(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(MasterActivity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     @Override
@@ -166,18 +184,9 @@ public class MasterFragment extends Fragment implements View.OnClickListener {
         listener = (FragmentListener) context;
     }
 
-    @Override
-    public void onClick(View v) {
-        String needle = String.valueOf(searchField.getText());
-        changeCursor(dataSource.searchNotes(needle));
-        searchField.setText("");
-        toggleSearchBoxVisibility();
-    }
-
-    // Für die Callbacks
-    // Schritt 1: Wir schreiben ein internes Interface
+    // internal interface for callbacks
     public interface FragmentListener {
-        void onFragmentItemClick (int pos);
+        void onFragmentItemClick (int id);
     }
 
 

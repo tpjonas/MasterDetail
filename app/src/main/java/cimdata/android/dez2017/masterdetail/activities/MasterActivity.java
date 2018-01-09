@@ -1,22 +1,14 @@
 package cimdata.android.dez2017.masterdetail.activities;
 
-import android.app.FragmentManager;
 import android.content.Intent;
-import android.database.Cursor;
-import android.support.v7.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 import cimdata.android.dez2017.masterdetail.R;
-import cimdata.android.dez2017.masterdetail.db.NotesDataSource;
-import cimdata.android.dez2017.masterdetail.db.NotesContract;
 import cimdata.android.dez2017.masterdetail.fragments.DetailFragment;
 import cimdata.android.dez2017.masterdetail.fragments.MasterFragment;
 
@@ -24,8 +16,6 @@ import cimdata.android.dez2017.masterdetail.fragments.MasterFragment;
 public class MasterActivity extends AppCompatActivity implements MasterFragment.FragmentListener {
 
     ViewGroup masterContainer, detailContainer;
-
-    boolean isTablet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +25,7 @@ public class MasterActivity extends AppCompatActivity implements MasterFragment.
         masterContainer = findViewById(R.id.ly_acmaster_container_master);
         detailContainer = findViewById(R.id.ly_acmaster_container_detail);
 
-        // Wenn wir uns beide Container geholt haben, entscheiden wir welche
-        // Variante wir anzeigen.
-        // Wenn es einen Detail-Container gibt, merken wir uns, dass wir uns ium Landscape-Modus befinden
-        // Wir merken daran, welche Layout-Datei verwendet wird
-        isTablet = detailContainer != null;
-
-        // Hier füllen wir den Master-Container mit dem Master Fragment
+        // Fill master container with master fragment
         displayMasterFragment("");
 
     }
@@ -67,11 +51,8 @@ public class MasterActivity extends AppCompatActivity implements MasterFragment.
 
         Toast.makeText(this, String.valueOf(pos), Toast.LENGTH_SHORT).show();
 
-        if (isTablet) {
-            displayDetailFragment(pos);
-        } else {
-            displayDetailActivity(pos);
-        }
+        displayDetailActivity(pos);
+
 
     }
 
@@ -121,7 +102,7 @@ public class MasterActivity extends AppCompatActivity implements MasterFragment.
                 Toast.makeText(this, "NO", Toast.LENGTH_SHORT).show();
 
         }
-        
+
         return super.onOptionsItemSelected(item);
     }
 }

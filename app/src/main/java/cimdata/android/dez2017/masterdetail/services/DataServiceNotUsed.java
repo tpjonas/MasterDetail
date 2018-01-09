@@ -1,6 +1,6 @@
 package cimdata.android.dez2017.masterdetail.services;
 
-public class DataService {
+public class DataServiceNotUsed {
 
     private static final String[] data;
 
