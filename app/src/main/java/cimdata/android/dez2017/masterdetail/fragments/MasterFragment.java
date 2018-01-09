@@ -2,16 +2,24 @@ package cimdata.android.dez2017.masterdetail.fragments;
 
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CursorAdapter;
+import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
 import cimdata.android.dez2017.masterdetail.R;
+import cimdata.android.dez2017.masterdetail.activities.MasterActivity;
+import cimdata.android.dez2017.masterdetail.db.NotesContract;
+import cimdata.android.dez2017.masterdetail.db.NotesDataSource;
 import cimdata.android.dez2017.masterdetail.services.DataService;
 
 public class MasterFragment extends Fragment {
@@ -22,13 +30,20 @@ public class MasterFragment extends Fragment {
 
     private ListView dataList;
 
+    private ConstraintLayout searchBox;
+
     private String mParam1;
     private String mParam2;
+
+    private SimpleCursorAdapter adapter;
+
+    public NotesDataSource dataSource;
 
     // Für die Callbacks
     // Schritt 2: Wir legen ein Feld für das Objekt an,
     // das auf unsere Callbacks hört
     private FragmentListener listener;
+    private Cursor cursor;
 
     public MasterFragment() {
         // Required empty public constructor
@@ -50,6 +65,31 @@ public class MasterFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        dataSource = new NotesDataSource(getActivity());
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        changeCursor(dataSource.fetchAllNotes());
+
+    }
+
+    public void changeCursor(Cursor cursor) {
+        adapter.changeCursor(cursor);
+        adapter.notifyDataSetChanged(); // CHECK IF NEEDED
+    }
+
+    public void toggleSearchBoxVisibility() {
+        searchBox.setVisibility(View.VISIBLE); // TODO: make toggle!
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        dataSource.close();
     }
 
     @Override
@@ -58,16 +98,31 @@ public class MasterFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_master, container, false);
 
-        String[] data = DataService.fetchData();
+        searchBox = v.findViewById(R.id.id_fragment_master_search_frame);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+        dataSource.open();
+
+
+        adapter = new SimpleCursorAdapter(
                 getActivity(),
-                android.R.layout.simple_list_item_1,
-                data
+                android.R.layout.simple_list_item_2,
+                null,
+                new String[] {
+                        NotesContract.NotesEntry.COLUMN_TITLE_NAME,
+                        NotesContract.NotesEntry.COLUMN_BODY_NAME
+                },
+                new int[] {
+                        android.R.id.text1,
+                        android.R.id.text2
+
+                },
+                0
         );
 
         dataList = v.findViewById(R.id.list_frmaster_data);
         dataList.setAdapter(adapter);
+
+        //---
 
         // Wenn wir ein Item auswählen ...
         dataList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -102,5 +157,6 @@ public class MasterFragment extends Fragment {
     public interface FragmentListener {
         void onFragmentItemClick (int pos);
     }
+
 
 }

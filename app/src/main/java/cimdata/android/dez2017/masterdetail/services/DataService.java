@@ -8,9 +8,9 @@ public class DataService {
     static {
 
         data = new String[]{
-                "data1",
-                "data2",
-                "data3",
+                "Putzen",
+                "Spülen",
+                "Aufräumen",
         };
     }
 
