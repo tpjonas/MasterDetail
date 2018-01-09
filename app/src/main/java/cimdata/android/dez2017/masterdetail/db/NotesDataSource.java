@@ -51,7 +51,7 @@ public class NotesDataSource {
 
     }
 
-    public Cursor fetchNotesTitleContains(String startChar) {
+    public Cursor searchNotes(String needle) {
 
         Cursor cursor = database.query(
                 NotesContract.NotesEntry.TABLE_NAME,
@@ -60,9 +60,10 @@ public class NotesDataSource {
                         NotesContract.NotesEntry.COLUMN_TITLE_NAME,
                         NotesContract.NotesEntry.COLUMN_BODY_NAME
                 },
-                NotesContract.NotesEntry.COLUMN_TITLE_NAME + " LIKE ? ",
+                NotesContract.NotesEntry.COLUMN_TITLE_NAME + " LIKE ? OR " + NotesContract.NotesEntry.COLUMN_BODY_NAME + " LIKE ? COLLATE NOCASE",
                 new String[] {
-                        "%" + startChar + "%"
+                        "%" + needle + "%",
+                        "%" + needle + "%"
                 },
                 null,
                 null,
@@ -71,7 +72,6 @@ public class NotesDataSource {
         );
 
         return cursor;
-
     }
 
     public ContentValues fetchNote(int id) {

@@ -11,10 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+
+import org.w3c.dom.Text;
 
 import cimdata.android.dez2017.masterdetail.R;
 import cimdata.android.dez2017.masterdetail.activities.MasterActivity;
@@ -22,15 +26,20 @@ import cimdata.android.dez2017.masterdetail.db.NotesContract;
 import cimdata.android.dez2017.masterdetail.db.NotesDataSource;
 import cimdata.android.dez2017.masterdetail.services.DataService;
 
-public class MasterFragment extends Fragment {
+public class MasterFragment extends Fragment implements View.OnClickListener {
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    // Notes List
     private ListView dataList;
 
+    // Search box and contents
     private ConstraintLayout searchBox;
+    private Button searchButton;
+    private EditText searchField;
+
 
     private String mParam1;
     private String mParam2;
@@ -82,7 +91,8 @@ public class MasterFragment extends Fragment {
     }
 
     public void toggleSearchBoxVisibility() {
-        searchBox.setVisibility(View.VISIBLE); // TODO: make toggle!
+        int visibility = searchBox.getVisibility() == View.VISIBLE ? View.INVISIBLE : View.VISIBLE;
+        searchBox.setVisibility(visibility);
     }
 
 
@@ -98,11 +108,15 @@ public class MasterFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_master, container, false);
 
+        dataList = v.findViewById(R.id.list_frmaster_data);
+
         searchBox = v.findViewById(R.id.id_fragment_master_search_frame);
+        searchButton = v.findViewById(R.id.id_button_search);
+        searchField = v.findViewById(R.id.id_text_search);
+
+        searchButton.setOnClickListener(this);
 
         dataSource.open();
-
-
         adapter = new SimpleCursorAdapter(
                 getActivity(),
                 android.R.layout.simple_list_item_2,
@@ -119,7 +133,7 @@ public class MasterFragment extends Fragment {
                 0
         );
 
-        dataList = v.findViewById(R.id.list_frmaster_data);
+
         dataList.setAdapter(adapter);
 
         //---
@@ -150,6 +164,14 @@ public class MasterFragment extends Fragment {
         // die Methode onAttach() wird immer aufgerufen und die Activity,
         // die das Fragment anzeigt, übergibt sich selber (als context).
         listener = (FragmentListener) context;
+    }
+
+    @Override
+    public void onClick(View v) {
+        String needle = String.valueOf(searchField.getText());
+        changeCursor(dataSource.searchNotes(needle));
+        searchField.setText("");
+        toggleSearchBoxVisibility();
     }
 
     // Für die Callbacks
