@@ -60,7 +60,7 @@ public class NotesDataSource {
                         NotesContract.NotesEntry.COLUMN_TITLE_NAME,
                         NotesContract.NotesEntry.COLUMN_BODY_NAME
                 },
-                NotesContract.NotesEntry.COLUMN_TITLE_NAME + " LIKE ? OR " + NotesContract.NotesEntry.COLUMN_BODY_NAME + " LIKE ? COLLATE NOCASE",
+                NotesContract.NotesEntry.COLUMN_TITLE_NAME + " LIKE ? OR " + NotesContract.NotesEntry.COLUMN_BODY_NAME + " LIKE ?",
                 new String[] {
                         "%" + needle + "%",
                         "%" + needle + "%"
@@ -104,10 +104,34 @@ public class NotesDataSource {
         values.put(NotesContract.NotesEntry.COLUMN_BODY_NAME, body);
 
         database.insert(
-                NotesContract.NotesEntry.TABLE_NAME,null, values
+                NotesContract.NotesEntry.TABLE_NAME,
+                null,
+                values
         );
 
     }
 
+    public void updateNote(int id, String title, String body) {
+
+        ContentValues values = new ContentValues();
+
+        values.put(NotesContract.NotesEntry.COLUMN_TITLE_NAME, title);
+        values.put(NotesContract.NotesEntry.COLUMN_BODY_NAME, body);
+
+        database.update(
+                NotesContract.NotesEntry.TABLE_NAME,
+                values,
+                NotesContract.NotesEntry._ID + "=" + id,
+                null
+        );
+
+    }
+
+    public void deleteNote(int id) {
+        database.delete(
+                NotesContract.NotesEntry.TABLE_NAME,
+                NotesContract.NotesEntry._ID + "=?",
+                new String[]{String.valueOf(id)});
+    }
 }
 

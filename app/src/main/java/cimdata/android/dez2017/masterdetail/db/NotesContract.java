@@ -12,9 +12,9 @@ public class NotesContract {
     public static final String CREATE_NOTES_TABLE =
             "CREATE TABLE IF NOT EXISTS " + NotesEntry.TABLE_NAME +
             "(" +
-            NotesEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-            NotesEntry.COLUMN_TITLE_NAME + " TEXT, " +
-            NotesEntry.COLUMN_BODY_NAME + " TEXT " +
+                NotesEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                NotesEntry.COLUMN_TITLE_NAME + " TEXT, " +
+                NotesEntry.COLUMN_BODY_NAME + " TEXT " +
             ")";
 
     public static final class NotesEntry implements BaseColumns {

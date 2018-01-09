@@ -87,7 +87,7 @@ public class MasterFragment extends Fragment implements View.OnClickListener {
 
     public void changeCursor(Cursor cursor) {
         adapter.changeCursor(cursor);
-        adapter.notifyDataSetChanged(); // CHECK IF NEEDED
+        //adapter.notifyDataSetChanged(); // not needed
     }
 
     public void toggleSearchBoxVisibility() {
@@ -144,7 +144,7 @@ public class MasterFragment extends Fragment implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 // ... rufen wir die Callback-Methode auf der Activity auf
-                listener.onFragmentItemClick(position);
+                listener.onFragmentItemClick((int) id);
 
             }
         });

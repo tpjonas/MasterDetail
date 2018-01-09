@@ -1,5 +1,7 @@
 package cimdata.android.dez2017.masterdetail.activities;
 
+import android.content.ContentValues;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +21,8 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
     private NotesDataSource dataSource;
 
+    int position;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,8 +31,11 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         titleText = findViewById(R.id.id_add_text_title);
         bodyText = findViewById(R.id.id_add_text_body);
         saveButton = findViewById(R.id.id_add_button_save);
-
         saveButton.setOnClickListener(this);
+
+        // Daten holen
+        Intent intent = getIntent();
+        position = intent.getIntExtra(DetailActivity.EXTRA_INT_POSITION, -1);
 
         dataSource = new NotesDataSource(this);
 
@@ -44,6 +51,13 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         dataSource.open();
+
+        if (position != -1) {
+            ContentValues row = dataSource.fetchNote(position);
+            titleText.setText(row.getAsString(NotesContract.NotesEntry.COLUMN_TITLE_NAME));
+            bodyText.setText(row.getAsString(NotesContract.NotesEntry.COLUMN_BODY_NAME));
+        }
+
     }
 
     @Override
@@ -53,12 +67,27 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         String body = String.valueOf(bodyText.getText());
 
         if (title.equals("") || (body.equals(""))) {
-            Toast.makeText(this, "Couldn't save: Title and body must not be empty!", Toast.LENGTH_SHORT).show();
-        } else {
-            dataSource.insertNote(title, body);
-            this.finish();
-            overridePendingTransition(0, 0);
+            Toast.makeText(this, "Title and body must not be empty!", Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        if(position != -1) {
+            Toast.makeText(this, "UPDATE", Toast.LENGTH_SHORT).show();
+            dataSource.updateNote(position, title, body);
+        } else {
+            Toast.makeText(this, "INSERT", Toast.LENGTH_SHORT).show();
+            dataSource.insertNote(title, body);
+        }
+
+        this.finish();
+        /*
+        TODO: @Andreas, bei einem Update würde ich mit this.finish() zur vorherigen Activity (DetailActivity)
+        TODO: ich möchte aber in die davor (MasterActivity). Das geht mit einem Intent, erscheint mir aber wenig
+        TODO: elegant. Kann ich auch die vorherige finish()en?
+        Intent intent = new Intent(this, MasterActivity.class);
+        startActivity(intent);
+        */
+        overridePendingTransition(0, 0);
 
     }
 }

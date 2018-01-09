@@ -53,7 +53,7 @@ public class DetailFragment extends Fragment {
 
         dataSource.open();
 
-        ContentValues row = dataSource.fetchNote(position+1);
+        ContentValues row = dataSource.fetchNote(position);
 
         String title = row.getAsString("title");
         String body = row.getAsString("body");
