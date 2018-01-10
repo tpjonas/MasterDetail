@@ -47,7 +47,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:background="@android:color/holo_green_light"
         android:text="Save Note"
+        android:textColor="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -63,12 +65,28 @@
         android:layout_marginTop="8dp"
         android:calendarViewShown="false"
         android:datePickerMode="spinner"
-        android:endYear="2022"
+        android:endYear="2025"
         app:layout_constraintBottom_toTopOf="@+id/id_add_button_save"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/id_add_text_body"
         app:layout_constraintVertical_bias="0.455"
+        />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="105dp"
+        android:text="Due Date"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/id_datepicker"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/id_datepicker"
         />
 
 </android.support.constraint.ConstraintLayout>
