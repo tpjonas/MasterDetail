@@ -124,6 +124,7 @@ public class MasterFragment extends Fragment {
             }
         });
 
+        // do search on
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,12 +176,9 @@ public class MasterFragment extends Fragment {
         super.onAttach(context);
 
         if (!(context instanceof FragmentListener)) {
-            throw new AssertionError("Die Activity muss das Interface FragmentListener implementieren.");
+            throw new AssertionError("Activity must implement Interface FragmentListener.");
         }
 
-        // Hier verbinden sich Activity und Fragmente automatisch, denn
-        // die Methode onAttach() wird immer aufgerufen und die Activity,
-        // die das Fragment anzeigt, übergibt sich selber (als context).
         listener = (FragmentListener) context;
     }
 
