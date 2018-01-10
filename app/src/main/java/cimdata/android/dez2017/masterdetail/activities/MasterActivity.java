@@ -70,7 +70,7 @@ public class MasterActivity extends AppCompatActivity implements MasterFragment.
     private void displayDetailActivity(int pos) {
 
         Intent intent = new Intent(this, DetailActivity.class);
-
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         intent.putExtra(DetailActivity.EXTRA_INT_POSITION, pos);
 
         startActivity(intent);

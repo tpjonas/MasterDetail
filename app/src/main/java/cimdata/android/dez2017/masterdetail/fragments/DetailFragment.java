@@ -18,6 +18,7 @@ public class DetailFragment extends Fragment {
 
     private TextView titleText;
     private TextView bodyText;
+    private TextView dateText;
 
     private int position;
 
@@ -56,12 +57,17 @@ public class DetailFragment extends Fragment {
 
         String title = row.getAsString("title");
         String body = row.getAsString("body");
+        int day = row.getAsInteger("day");
+        int month = row.getAsInteger("month")+1;
+        int year = row.getAsInteger("year");
 
         titleText = v.findViewById(R.id.id_txt_detail_title);
         bodyText = v.findViewById(R.id.id_txt_detail_body);
+        dateText = v.findViewById(R.id.id_txt_detail_date);
 
         titleText.setText(title);
         bodyText.setText(body);
+        dateText.setText(day + "/" + month + "/" + year);
 
         return v;
     }

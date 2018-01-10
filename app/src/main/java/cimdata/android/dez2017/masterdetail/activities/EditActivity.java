@@ -6,8 +6,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import cimdata.android.dez2017.masterdetail.R;
 import cimdata.android.dez2017.masterdetail.db.NotesContract;
@@ -18,6 +24,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     EditText titleText;
     EditText bodyText;
     Button saveButton;
+    DatePicker datePicker;
 
     private NotesDataSource dataSource;
 
@@ -31,6 +38,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         titleText = findViewById(R.id.id_add_text_title);
         bodyText = findViewById(R.id.id_add_text_body);
         saveButton = findViewById(R.id.id_add_button_save);
+        datePicker = findViewById(R.id.id_datepicker);
         saveButton.setOnClickListener(this);
 
         // Daten holen
@@ -38,6 +46,9 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         position = intent.getIntExtra(DetailActivity.EXTRA_INT_POSITION, -1);
 
         dataSource = new NotesDataSource(this);
+
+        // set date picker's minDate to today
+        datePicker.setMinDate(System.currentTimeMillis() - 1000);
 
     }
 
@@ -56,6 +67,12 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             ContentValues row = dataSource.fetchNote(position);
             titleText.setText(row.getAsString(NotesContract.NotesEntry.COLUMN_TITLE_NAME));
             bodyText.setText(row.getAsString(NotesContract.NotesEntry.COLUMN_BODY_NAME));
+            datePicker.updateDate(
+                    row.getAsInteger("year"),
+                    row.getAsInteger("month"),
+                    row.getAsInteger("day")
+            );
+            Toast.makeText(this, row.getAsInteger("year") + "/" + row.getAsInteger("month") + "/" + row.getAsInteger("day") + "/" , Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -71,12 +88,28 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
+        // Get date
+        GregorianCalendar gregorianCalendar = new GregorianCalendar(
+                datePicker.getYear(),
+                //2016,
+                datePicker.getMonth(),
+                datePicker.getDayOfMonth()
+        );
+        Date dueDate = gregorianCalendar.getTime();
+
+        /*
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
+        String strDate = dateFormatter.format(dueDate);
+
+        Toast.makeText(this, strDate, Toast.LENGTH_SHORT).show();
+        */
+
         if(position != -1) {
             Toast.makeText(this, "UPDATE", Toast.LENGTH_SHORT).show();
-            dataSource.updateNote(position, title, body);
+            dataSource.updateNote(position, title, body, dueDate);
         } else {
             Toast.makeText(this, "INSERT", Toast.LENGTH_SHORT).show();
-            dataSource.insertNote(title, body);
+            dataSource.insertNote(title, body, dueDate);
         }
 
         this.finish();

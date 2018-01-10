@@ -3,6 +3,7 @@ package cimdata.android.dez2017.masterdetail.fragments;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 import cimdata.android.dez2017.masterdetail.R;
 import cimdata.android.dez2017.masterdetail.activities.MasterActivity;
@@ -150,7 +152,23 @@ public class MasterFragment extends Fragment {
 
                 },
                 0
-        );
+        ){
+
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent){
+                View view = super.getView(position, convertView, parent);
+
+                Cursor cursor = getCursor();
+
+                cursor.moveToPosition(position);
+                int isDue = cursor.getInt(cursor.getColumnIndex(NotesContract.NotesEntry.COLUMN_IS_DUE));
+
+                ((TextView) view.findViewById(android.R.id.text1)).setTextColor(isDue == 0 ? Color.WHITE : Color.RED); // here can be your logic
+
+                return view;
+            };
+        };
 
 
         dataList.setAdapter(adapter);
