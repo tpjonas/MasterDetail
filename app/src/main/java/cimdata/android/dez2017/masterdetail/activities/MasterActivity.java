@@ -15,7 +15,7 @@ import cimdata.android.dez2017.masterdetail.fragments.MasterFragment;
 
 public class MasterActivity extends AppCompatActivity implements MasterFragment.FragmentListener {
 
-    ViewGroup masterContainer, detailContainer;
+    ViewGroup masterContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +23,6 @@ public class MasterActivity extends AppCompatActivity implements MasterFragment.
         setContentView(R.layout.activity_master);
 
         masterContainer = findViewById(R.id.ly_acmaster_container_master);
-        detailContainer = findViewById(R.id.ly_acmaster_container_detail);
 
         // Fill master container with master fragment
         displayMasterFragment("");
@@ -53,17 +52,6 @@ public class MasterActivity extends AppCompatActivity implements MasterFragment.
 
         displayDetailActivity(pos);
 
-
-    }
-
-    private void displayDetailFragment(int pos) {
-
-        DetailFragment fragment = DetailFragment.newInstance(pos);
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.ly_acmaster_container_detail, fragment)
-                .commit();
 
     }
 

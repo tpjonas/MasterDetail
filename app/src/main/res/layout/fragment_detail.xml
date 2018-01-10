@@ -12,11 +12,12 @@
 
     <TextView
         android:id="@+id/id_txt_detail_date"
-        android:layout_width="231dp"
+        android:layout_width="67dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="16dp"
-        android:layout_marginStart="204dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:textAlignment="textEnd"
         android:textSize="12sp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toEndOf="@+id/id_txt_detail_title"
@@ -26,7 +27,7 @@
 
     <TextView
         android:id="@+id/id_txt_detail_title"
-        android:layout_width="208dp"
+        android:layout_width="297dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
