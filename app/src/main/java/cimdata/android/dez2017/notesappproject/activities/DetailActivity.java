@@ -1,4 +1,4 @@
-package cimdata.android.dez2017.masterdetail.activities;
+package cimdata.android.dez2017.notesappproject.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,13 +7,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import cimdata.android.dez2017.masterdetail.R;
-import cimdata.android.dez2017.masterdetail.db.NotesDataSource;
-import cimdata.android.dez2017.masterdetail.fragments.DetailFragment;
+import cimdata.android.dez2017.notesappproject.R;
+import cimdata.android.dez2017.notesappproject.db.NotesDataSource;
+import cimdata.android.dez2017.notesappproject.fragments.DetailFragment;
 
 public class DetailActivity extends AppCompatActivity {
 
-    public static final String EXTRA_INT_POSITION = "extra.int.position";
+    public static final String EXTRA_INT_POSITION = "extra.int.id";
 
     public NotesDataSource dataSource;
     private int position;
@@ -27,7 +27,7 @@ public class DetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         position = intent.getIntExtra(EXTRA_INT_POSITION, -1);
 
-        //Toast.makeText(this, "POS: " + position, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "POS: " + id, Toast.LENGTH_SHORT).show();
 
         DetailFragment fragment = DetailFragment.newInstance(position);
 

@@ -1,4 +1,4 @@
-package cimdata.android.dez2017.masterdetail.activities;
+package cimdata.android.dez2017.notesappproject.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,9 +8,8 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import cimdata.android.dez2017.masterdetail.R;
-import cimdata.android.dez2017.masterdetail.fragments.DetailFragment;
-import cimdata.android.dez2017.masterdetail.fragments.MasterFragment;
+import cimdata.android.dez2017.notesappproject.R;
+import cimdata.android.dez2017.notesappproject.fragments.MasterFragment;
 
 
 public class MasterActivity extends AppCompatActivity implements MasterFragment.FragmentListener {

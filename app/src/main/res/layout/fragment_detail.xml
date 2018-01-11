@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cimdata.android.dez2017.masterdetail.fragments.DetailFragment"
+    tools:context="cimdata.android.dez2017.notesappproject.fragments.DetailFragment"
     >
 
     <!-- TODO: Update blank fragment layout -->

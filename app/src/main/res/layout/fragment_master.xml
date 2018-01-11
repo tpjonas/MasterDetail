@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="cimdata.android.dez2017.masterdetail.fragments.MasterFragment"
+    tools:context="cimdata.android.dez2017.notesappproject.fragments.MasterFragment"
     >
 
     <!-- TODO: Update blank fragment layout -->
@@ -21,7 +21,7 @@
         >
 
         <Button
-            android:id="@+id/id_button_search"
+            android:id="@+id/id_button_clear"
             style="@style/PrimaryFlatButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package cimdata.android.dez2017.masterdetail.activities;
+package cimdata.android.dez2017.notesappproject.activities;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -10,14 +10,12 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import cimdata.android.dez2017.masterdetail.R;
-import cimdata.android.dez2017.masterdetail.db.NotesContract;
-import cimdata.android.dez2017.masterdetail.db.NotesDataSource;
+import cimdata.android.dez2017.notesappproject.R;
+import cimdata.android.dez2017.notesappproject.db.NotesContract;
+import cimdata.android.dez2017.notesappproject.db.NotesDataSource;
 
 public class EditActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -28,7 +26,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
     private NotesDataSource dataSource;
 
-    int position;
+    int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +39,9 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         datePicker = findViewById(R.id.id_datepicker);
         saveButton.setOnClickListener(this);
 
-        // Daten holen
+        // get data
         Intent intent = getIntent();
-        position = intent.getIntExtra(DetailActivity.EXTRA_INT_POSITION, -1);
+        id = intent.getIntExtra(DetailActivity.EXTRA_INT_POSITION, -1);
 
         dataSource = new NotesDataSource(this);
 
@@ -63,8 +61,9 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         dataSource.open();
 
-        if (position != -1) {
-            ContentValues row = dataSource.fetchNote(position);
+        // if in edit mode, preset values
+        if (id != -1) {
+            ContentValues row = dataSource.fetchNote(id);
             titleText.setText(row.getAsString(NotesContract.NotesEntry.COLUMN_TITLE_NAME));
             bodyText.setText(row.getAsString(NotesContract.NotesEntry.COLUMN_BODY_NAME));
             datePicker.updateDate(
@@ -72,7 +71,6 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                     row.getAsInteger("month"),
                     row.getAsInteger("day")
             );
-            Toast.makeText(this, row.getAsInteger("year") + "/" + row.getAsInteger("month") + "/" + row.getAsInteger("day") + "/" , Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -88,7 +86,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
-        // Get date
+        // get due date
         GregorianCalendar gregorianCalendar = new GregorianCalendar(
                 datePicker.getYear(),
                 //2016,
@@ -97,29 +95,13 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         );
         Date dueDate = gregorianCalendar.getTime();
 
-        /*
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
-        String strDate = dateFormatter.format(dueDate);
-
-        Toast.makeText(this, strDate, Toast.LENGTH_SHORT).show();
-        */
-
-        if(position != -1) {
-            Toast.makeText(this, "UPDATE", Toast.LENGTH_SHORT).show();
-            dataSource.updateNote(position, title, body, dueDate);
+        // save data
+        if(id != -1) {
+            dataSource.updateNote(id, title, body, dueDate);
         } else {
-            Toast.makeText(this, "INSERT", Toast.LENGTH_SHORT).show();
             dataSource.insertNote(title, body, dueDate);
         }
-
         this.finish();
-        /*
-        TODO: @Andreas, bei einem Update würde ich mit this.finish() zur vorherigen Activity (DetailActivity)
-        TODO: ich möchte aber in die davor (MasterActivity). Das geht mit einem Intent, erscheint mir aber wenig
-        TODO: elegant. Kann ich auch die vorherige finish()en?
-        Intent intent = new Intent(this, MasterActivity.class);
-        startActivity(intent);
-        */
         overridePendingTransition(0, 0);
 
     }

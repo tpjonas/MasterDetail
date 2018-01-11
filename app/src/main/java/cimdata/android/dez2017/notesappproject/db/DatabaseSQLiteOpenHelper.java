@@ -1,4 +1,4 @@
-package cimdata.android.dez2017.masterdetail.db;
+package cimdata.android.dez2017.notesappproject.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

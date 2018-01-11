@@ -1,4 +1,4 @@
-package cimdata.android.dez2017.masterdetail.fragments;
+package cimdata.android.dez2017.notesappproject.fragments;
 
 
 import android.content.Context;
@@ -20,10 +20,10 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-import cimdata.android.dez2017.masterdetail.R;
-import cimdata.android.dez2017.masterdetail.activities.MasterActivity;
-import cimdata.android.dez2017.masterdetail.db.NotesContract;
-import cimdata.android.dez2017.masterdetail.db.NotesDataSource;
+import cimdata.android.dez2017.notesappproject.R;
+import cimdata.android.dez2017.notesappproject.activities.MasterActivity;
+import cimdata.android.dez2017.notesappproject.db.NotesContract;
+import cimdata.android.dez2017.notesappproject.db.NotesDataSource;
 
 public class MasterFragment extends Fragment {
 
@@ -36,7 +36,7 @@ public class MasterFragment extends Fragment {
 
     // Search box and contents
     private ConstraintLayout searchBox;
-    private Button searchButton;
+    private Button clearButton;
     private EditText searchField;
 
 
@@ -107,8 +107,11 @@ public class MasterFragment extends Fragment {
         dataList = v.findViewById(R.id.list_frmaster_data);
 
         searchBox = v.findViewById(R.id.id_fragment_master_search_frame);
-        searchButton = v.findViewById(R.id.id_button_search);
+        clearButton = v.findViewById(R.id.id_button_clear);
         searchField = v.findViewById(R.id.id_text_search);
+
+        // open database
+        dataSource.open();
 
         searchField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -117,27 +120,25 @@ public class MasterFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
+            // run search on text change
             @Override
             public void afterTextChanged(Editable s) {
-
                 String needle = String.valueOf(searchField.getText());
                 changeCursor(dataSource.searchNotes(needle));
-
             }
         });
 
-        // do search on
-        searchButton.setOnClickListener(new View.OnClickListener() {
+        // clear search on Button click
+        clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 searchField.setText("");
-
                 hideKeyboardFrom(getContext(), v);
                 toggleSearchBoxVisibility();
             }
         });
 
-        dataSource.open();
+        // create empty adapter
         adapter = new SimpleCursorAdapter(
                 getActivity(),
                 android.R.layout.simple_list_item_2,
@@ -154,18 +155,19 @@ public class MasterFragment extends Fragment {
                 0
         ){
 
-
+            // highlight due notes
             @Override
             public View getView(int position, View convertView, ViewGroup parent){
                 View view = super.getView(position, convertView, parent);
 
                 Cursor cursor = getCursor();
-
                 cursor.moveToPosition(position);
-                int isDue = cursor.getInt(cursor.getColumnIndex(NotesContract.NotesEntry.COLUMN_IS_DUE));
+                boolean isDue = cursor.getInt(cursor.getColumnIndex(NotesContract.NotesEntry.COLUMN_IS_DUE)) == 1;
 
-                ((TextView) view.findViewById(android.R.id.text1)).setTextColor(isDue == 0 ? Color.WHITE : Color.RED); // here can be your logic
-
+                if(isDue) {
+                    ((TextView) view.findViewById(android.R.id.text1)).setTextColor(Color.RED);
+                    ((TextView) view.findViewById(android.R.id.text2)).setTextColor(Color.RED);
+                }
                 return view;
             };
         };

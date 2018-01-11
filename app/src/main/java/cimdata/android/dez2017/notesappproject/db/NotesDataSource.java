@@ -1,4 +1,4 @@
-package cimdata.android.dez2017.masterdetail.db;
+package cimdata.android.dez2017.notesappproject.db;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,11 +10,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-
-/**
- * Created by Jonas on 14.12.2017.
- */
 
 public class NotesDataSource {
 
@@ -58,9 +53,7 @@ public class NotesDataSource {
                         + NotesContract.NotesEntry.TABLE_NAME,
                 null);
 
-
         return cursor;
-
     }
 
     public Cursor searchNotes(String needle) {
@@ -82,30 +75,6 @@ public class NotesDataSource {
                         "%" + needle + "%",
                         "%" + needle + "%"
                 }
-        );
-
-        return cursor;
-    }
-
-    public Cursor searchNotesOLD(String needle) {
-
-        Cursor cursor = database.query(
-                NotesContract.NotesEntry.TABLE_NAME,
-                new String[] {
-                        NotesContract.NotesEntry._ID,
-                        NotesContract.NotesEntry.COLUMN_TITLE_NAME,
-                        NotesContract.NotesEntry.COLUMN_BODY_NAME,
-                        NotesContract.NotesEntry.COLUMN_DUEDATE_NAME
-                },
-                NotesContract.NotesEntry.COLUMN_TITLE_NAME + " LIKE ? OR " + NotesContract.NotesEntry.COLUMN_BODY_NAME + " LIKE ?",
-                new String[] {
-                        "%" + needle + "%",
-                        "%" + needle + "%"
-                },
-                null,
-                null,
-                null,
-                null
         );
 
         return cursor;
@@ -203,9 +172,5 @@ public class NotesDataSource {
         return values;
     }
 
-    private boolean isDue(Date date) {
-        Date today = Calendar.getInstance().getTime();
-        return today.after(date);
-    }
 }
 

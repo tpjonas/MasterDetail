@@ -1,9 +1,4 @@
-package cimdata.android.dez2017.masterdetail.db;
-
-
-
-// Diese Klasse stellt die Tabellen-Informationen unserer Datenbank als
-// Konstanten in statischen Unterklassen zur Verfügung.
+package cimdata.android.dez2017.notesappproject.db;
 
 import android.provider.BaseColumns;
 
@@ -24,6 +19,7 @@ public class NotesContract {
         public static final String COLUMN_TITLE_NAME = "title";
         public static final String COLUMN_BODY_NAME = "body";
         public static final String COLUMN_DUEDATE_NAME = "duedate";
+        // not a real column, but computed in case statement in query
         public static final String COLUMN_IS_DUE = "is_due";
 
     }

@@ -1,4 +1,4 @@
-package cimdata.android.dez2017.masterdetail;
+package cimdata.android.dez2017.notesappproject;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cimdata.android.dez2017.masterdetail.activities.MasterActivity">
+    tools:context="cimdata.android.dez2017.notesappproject.activities.MasterActivity">
 
     <FrameLayout
         android:id="@+id/ly_acmaster_container_master"
