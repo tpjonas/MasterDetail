@@ -61,15 +61,18 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         dataSource.open();
 
+        this.setTitle(getString(R.string.add_note));
+
         // if in edit mode, preset values
         if (id != -1) {
             ContentValues row = dataSource.fetchNote(id);
+            this.setTitle(getString(R.string.edit_note));
             titleText.setText(row.getAsString(NotesContract.NotesEntry.COLUMN_TITLE_NAME));
             bodyText.setText(row.getAsString(NotesContract.NotesEntry.COLUMN_BODY_NAME));
             datePicker.updateDate(
-                    row.getAsInteger("year"),
-                    row.getAsInteger("month"),
-                    row.getAsInteger("day")
+                    row.getAsInteger(DetailActivity.DB_YEAR),
+                    row.getAsInteger(DetailActivity.DB_MONTH),
+                    row.getAsInteger(DetailActivity.DB_DAY)
             );
         }
 

@@ -10,13 +10,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import cimdata.android.dez2017.notesappproject.R;
+import cimdata.android.dez2017.notesappproject.activities.DetailActivity;
 import cimdata.android.dez2017.notesappproject.db.NotesDataSource;
 
 public class DetailFragment extends Fragment {
 
     private static final String ARG_INT_ID = "arg.int.id";
 
-    private TextView titleText;
     private TextView bodyText;
     private TextView dateText;
 
@@ -53,19 +53,20 @@ public class DetailFragment extends Fragment {
 
         // get data
         ContentValues row = dataSource.fetchNote(id);
-        String title = row.getAsString("title");
-        String body = row.getAsString("body");
-        int day = row.getAsInteger("day");
-        int month = row.getAsInteger("month")+1;
-        int year = row.getAsInteger("year");
+        String title = row.getAsString(DetailActivity.DB_TITLE);
+        String body = row.getAsString(DetailActivity.DB_BODY);
+        int day = row.getAsInteger(DetailActivity.DB_DAY);
+        int month = row.getAsInteger(DetailActivity.DB_MONTH)+1;
+        int year = row.getAsInteger(DetailActivity.DB_YEAR);
 
-        titleText = v.findViewById(R.id.id_txt_detail_title);
+
+
         bodyText = v.findViewById(R.id.id_txt_detail_body);
         dateText = v.findViewById(R.id.id_txt_detail_date);
 
-        titleText.setText(title);
+        getActivity().setTitle(title);
         bodyText.setText(body);
-        dateText.setText(day + "/" + month + "/" + year);
+        dateText.setText(String.format(getString(R.string.date), day, month, year));
 
         return v;
     }

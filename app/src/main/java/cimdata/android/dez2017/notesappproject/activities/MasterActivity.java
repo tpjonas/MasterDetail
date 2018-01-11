@@ -24,7 +24,7 @@ public class MasterActivity extends AppCompatActivity implements MasterFragment.
         masterContainer = findViewById(R.id.ly_acmaster_container_master);
 
         // Fill master container with master fragment
-        displayMasterFragment("");
+        displayMasterFragment();
 
     }
 
@@ -33,24 +33,24 @@ public class MasterActivity extends AppCompatActivity implements MasterFragment.
         super.onResume();
     }
 
-    private void displayMasterFragment(String searchString) {
+    private void displayMasterFragment() {
 
-        MasterFragment fragment = MasterFragment.newInstance(searchString, "");
+        MasterFragment fragment = (MasterFragment) getSupportFragmentManager().findFragmentById(R.id.ly_acmaster_container_master);
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.ly_acmaster_container_master, fragment, "master_fragment")
-                .commit();
+        if(fragment == null) {
+            fragment = MasterFragment.newInstance();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.ly_acmaster_container_master, fragment, "master_fragment")
+                    .commit();
+        }
 
     }
 
     @Override
     public void onFragmentItemClick(int pos) {
 
-        Toast.makeText(this, String.valueOf(pos), Toast.LENGTH_SHORT).show();
-
         displayDetailActivity(pos);
-
 
     }
 
@@ -76,17 +76,17 @@ public class MasterActivity extends AppCompatActivity implements MasterFragment.
 
         switch (item.getItemId()) {
             case R.id.id_add:
-                Toast.makeText(this, "ADD", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "ADD", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, EditActivity.class);
                 startActivity(intent);
                 break;
             case R.id.id_search:
-                Toast.makeText(this, "SEARCH", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "SEARCH", Toast.LENGTH_SHORT).show();
                 MasterFragment fragment = (MasterFragment) getSupportFragmentManager().findFragmentByTag("master_fragment");
                 fragment.toggleSearchBoxVisibility();
                 break;
             default:
-                Toast.makeText(this, "NO", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "NO", Toast.LENGTH_SHORT).show();
 
         }
 

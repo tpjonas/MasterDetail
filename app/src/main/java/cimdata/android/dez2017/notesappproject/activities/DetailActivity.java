@@ -15,6 +15,13 @@ public class DetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_INT_POSITION = "extra.int.id";
 
+    public static final String DB_TITLE = "title";
+    public static final String DB_BODY = "body";
+    public static final String DB_DAY = "day";
+    public static final String DB_MONTH = "month";
+    public static final String DB_YEAR = "year";
+    public static final String DB_DUEDATE = "duedate";
+
     public NotesDataSource dataSource;
     private int position;
 
@@ -26,8 +33,6 @@ public class DetailActivity extends AppCompatActivity {
         // Daten holen
         Intent intent = getIntent();
         position = intent.getIntExtra(EXTRA_INT_POSITION, -1);
-
-        //Toast.makeText(this, "POS: " + id, Toast.LENGTH_SHORT).show();
 
         DetailFragment fragment = DetailFragment.newInstance(position);
 

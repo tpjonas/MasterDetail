@@ -14,27 +14,13 @@
         android:id="@+id/id_txt_detail_date"
         android:layout_width="67dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:textAlignment="textEnd"
         android:textSize="12sp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/id_txt_detail_title"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="2018/01/15"
-        />
-
-    <TextView
-        android:id="@+id/id_txt_detail_title"
-        android:layout_width="297dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="title"
         />
 
     <TextView
@@ -49,8 +35,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/id_txt_detail_title"
+        app:layout_constraintTop_toBottomOf="@+id/id_txt_detail_date"
         tools:text="body"
+        />
+
+    <TextView
+        android:id="@+id/textview_due"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/due"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/id_txt_detail_date"
+        app:layout_constraintTop_toTopOf="parent"
         />
 
 </android.support.constraint.ConstraintLayout>

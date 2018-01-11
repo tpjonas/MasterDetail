@@ -2,6 +2,7 @@ package cimdata.android.dez2017.notesappproject.fragments;
 
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -27,10 +28,6 @@ import cimdata.android.dez2017.notesappproject.db.NotesDataSource;
 
 public class MasterFragment extends Fragment {
 
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
     // Notes List
     private ListView dataList;
 
@@ -38,10 +35,6 @@ public class MasterFragment extends Fragment {
     private ConstraintLayout searchBox;
     private Button clearButton;
     private EditText searchField;
-
-
-    private String mParam1;
-    private String mParam2;
 
     private SimpleCursorAdapter adapter;
 
@@ -54,22 +47,14 @@ public class MasterFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static MasterFragment newInstance(String param1, String param2) {
-        MasterFragment fragment = new MasterFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public static MasterFragment newInstance() {
+        return new MasterFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
         dataSource = new NotesDataSource(getActivity());
 
     }
@@ -165,11 +150,12 @@ public class MasterFragment extends Fragment {
                 boolean isDue = cursor.getInt(cursor.getColumnIndex(NotesContract.NotesEntry.COLUMN_IS_DUE)) == 1;
 
                 if(isDue) {
-                    ((TextView) view.findViewById(android.R.id.text1)).setTextColor(Color.RED);
-                    ((TextView) view.findViewById(android.R.id.text2)).setTextColor(Color.RED);
+                    int hightlightedColor = getResources().getColor(R.color.colorAccent, null);
+                    ((TextView) view.findViewById(android.R.id.text1)).setTextColor(hightlightedColor);
+                    ((TextView) view.findViewById(android.R.id.text2)).setTextColor(hightlightedColor);
                 }
                 return view;
-            };
+            }
         };
 
 
