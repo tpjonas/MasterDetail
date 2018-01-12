@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import cimdata.android.dez2017.notesappproject.R;
 import cimdata.android.dez2017.notesappproject.fragments.MasterFragment;
@@ -76,17 +75,15 @@ public class MasterActivity extends AppCompatActivity implements MasterFragment.
 
         switch (item.getItemId()) {
             case R.id.id_add:
-                //Toast.makeText(this, "ADD", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, EditActivity.class);
                 startActivity(intent);
                 break;
             case R.id.id_search:
-                //Toast.makeText(this, "SEARCH", Toast.LENGTH_SHORT).show();
                 MasterFragment fragment = (MasterFragment) getSupportFragmentManager().findFragmentByTag("master_fragment");
                 fragment.toggleSearchBoxVisibility();
                 break;
             default:
-                //Toast.makeText(this, "NO", Toast.LENGTH_SHORT).show();
+                new RuntimeException("Unknown menu item");
 
         }
 

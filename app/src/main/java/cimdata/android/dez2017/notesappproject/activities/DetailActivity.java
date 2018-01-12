@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import cimdata.android.dez2017.notesappproject.R;
 import cimdata.android.dez2017.notesappproject.db.NotesDataSource;
@@ -20,7 +19,6 @@ public class DetailActivity extends AppCompatActivity {
     public static final String DB_DAY = "day";
     public static final String DB_MONTH = "month";
     public static final String DB_YEAR = "year";
-    public static final String DB_DUEDATE = "duedate";
 
     public NotesDataSource dataSource;
     private int position;
@@ -69,19 +67,17 @@ public class DetailActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.id_delete:
-                Toast.makeText(this, "DELETE", Toast.LENGTH_SHORT).show();
                 dataSource.deleteNote(position);
                 this.finish();
                 overridePendingTransition(0, 0);
                 break;
             case R.id.id_edit:
-                Toast.makeText(this, "EDIT", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, EditActivity.class);
                 intent.putExtra(EXTRA_INT_POSITION, position);
                 startActivity(intent);
                 break;
             default:
-                Toast.makeText(this, "NO", Toast.LENGTH_SHORT).show();
+                new RuntimeException("Unknown menu item");
 
         }
         return super.onOptionsItemSelected(item);

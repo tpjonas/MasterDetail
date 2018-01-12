@@ -67,6 +67,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         if (id != -1) {
             ContentValues row = dataSource.fetchNote(id);
             this.setTitle(getString(R.string.edit_note));
+            saveButton.setText(R.string.update_note);
             titleText.setText(row.getAsString(NotesContract.NotesEntry.COLUMN_TITLE_NAME));
             bodyText.setText(row.getAsString(NotesContract.NotesEntry.COLUMN_BODY_NAME));
             datePicker.updateDate(
