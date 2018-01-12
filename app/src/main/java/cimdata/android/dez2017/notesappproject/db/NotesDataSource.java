@@ -50,7 +50,8 @@ public class NotesDataSource {
                         +  " END"
                         + " AS " + NotesContract.NotesEntry.COLUMN_IS_DUE
                         + " FROM "
-                        + NotesContract.NotesEntry.TABLE_NAME,
+                        + NotesContract.NotesEntry.TABLE_NAME
+                        + " ORDER BY " + NotesContract.NotesEntry.COLUMN_DUEDATE_NAME + " ASC",
                 null);
     }
 
@@ -68,7 +69,8 @@ public class NotesDataSource {
                         + " AS " + NotesContract.NotesEntry.COLUMN_IS_DUE
                         + " FROM " + NotesContract.NotesEntry.TABLE_NAME
                         + " WHERE " + NotesContract.NotesEntry.COLUMN_TITLE_NAME + " LIKE ?"
-                        +    " OR " + NotesContract.NotesEntry.COLUMN_BODY_NAME + " LIKE ?",
+                        +    " OR " + NotesContract.NotesEntry.COLUMN_BODY_NAME + " LIKE ?"
+                        + " ORDER BY " + NotesContract.NotesEntry.COLUMN_DUEDATE_NAME + " ASC",
                 new String[] {
                         "%" + needle + "%",
                         "%" + needle + "%"
