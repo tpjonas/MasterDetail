@@ -28,7 +28,6 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        // Daten holen
         Intent intent = getIntent();
         position = intent.getIntExtra(EXTRA_INT_POSITION, -1);
 

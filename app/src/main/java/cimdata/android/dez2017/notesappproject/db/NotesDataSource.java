@@ -45,7 +45,7 @@ public class NotesDataSource {
                         + ", " + NotesContract.NotesEntry.COLUMN_TITLE_NAME
                         + ", " + NotesContract.NotesEntry.COLUMN_BODY_NAME
                         + ", CASE"
-                        +  " WHEN date(" + NotesContract.NotesEntry.COLUMN_DUEDATE_NAME + ") < date('now')"
+                        +  " WHEN date(" + NotesContract.NotesEntry.COLUMN_DUEDATE_NAME + ") <= date('now')"
                         +  " THEN 1 ELSE 0"
                         +  " END"
                         + " AS " + NotesContract.NotesEntry.COLUMN_IS_DUE
@@ -64,7 +64,7 @@ public class NotesDataSource {
                         + ", " + NotesContract.NotesEntry.COLUMN_TITLE_NAME
                         + ", " + NotesContract.NotesEntry.COLUMN_BODY_NAME
                         + ", CASE"
-                        +  " WHEN date(" + NotesContract.NotesEntry.COLUMN_DUEDATE_NAME + ") < date('now')"
+                        +  " WHEN date(" + NotesContract.NotesEntry.COLUMN_DUEDATE_NAME + ") <= date('now')"
                         +  " THEN 1 ELSE 0"
                         +  " END"
                         + " AS " + NotesContract.NotesEntry.COLUMN_IS_DUE
