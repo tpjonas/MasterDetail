@@ -39,7 +39,7 @@ public class NotesDataSource {
 
     public Cursor fetchAllNotes() {
 
-        Cursor cursor = database.rawQuery(
+        return database.rawQuery(
                 "SELECT " +
                         NotesContract.NotesEntry._ID + " || '.' AS " + NotesContract.NotesEntry._ID
                         + ", " + NotesContract.NotesEntry.COLUMN_TITLE_NAME
@@ -52,13 +52,11 @@ public class NotesDataSource {
                         + " FROM "
                         + NotesContract.NotesEntry.TABLE_NAME,
                 null);
-
-        return cursor;
     }
 
     public Cursor searchNotes(String needle) {
 
-        Cursor cursor = database.rawQuery(
+        return database.rawQuery(
                 "SELECT " +
                         NotesContract.NotesEntry._ID + " || '.' AS " + NotesContract.NotesEntry._ID
                         + ", " + NotesContract.NotesEntry.COLUMN_TITLE_NAME
@@ -76,8 +74,6 @@ public class NotesDataSource {
                         "%" + needle + "%"
                 }
         );
-
-        return cursor;
     }
 
     public ContentValues fetchNote(int id) {
@@ -150,8 +146,7 @@ public class NotesDataSource {
 
     private String date2string(Date date) {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-        String strDate = dateFormatter.format(date);
-        return strDate;
+        return dateFormatter.format(date);
     }
 
     private ContentValues string2contentValues(String strDate) {
@@ -159,7 +154,6 @@ public class NotesDataSource {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         ContentValues values = new ContentValues();
         Calendar calendar = Calendar.getInstance();
-        Date date = Calendar.getInstance().getTime();
         try {
             calendar.setTime(dateFormatter.parse(strDate));
         } catch (ParseException e) {
